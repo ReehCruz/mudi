@@ -14,25 +14,26 @@ import com.alura.mvc.mudi.model.Pedido;
 import com.alura.mvc.mudi.repository.PedidoRepository;
 
 @Controller
-@RequestMapping("/pedido")
+@RequestMapping("pedido")
 public class PedidoController {
-
+	
 	@Autowired
 	private PedidoRepository pedidoRepository;
-	
-	@GetMapping("formulario")
-    public String formulario(RequisicaoNovoPedido requisicao) {
-        return "pedido/formulario";
-    }
 
-    @PostMapping("novo")
-    public String novo(@Valid RequisicaoNovoPedido requisicao, BindingResult result) {
-    	if (result.hasErrors()) {
-    		return "pedido/formulario";
-    	}
-    	
-        Pedido pedido = requisicao.toPedido();
-        pedidoRepository.save(pedido);
-        return "pedido/formulario";
-    }
+	@GetMapping("formulario") 
+	public String formulario(RequisicaoNovoPedido requisicao) {
+		return "pedido/formulario";
+	}
+	
+	@PostMapping("novo")
+	public String novo(@Valid RequisicaoNovoPedido requisicao, BindingResult result) {
+		if(result.hasErrors()) {
+			return "pedido/formulario";
+		}
+		
+		Pedido pedido = requisicao.toPedido();
+		pedidoRepository.save(pedido);
+		
+		return "redirect:/home";
+	}  
 }
